@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularz Kontaktowy</title>
+</head>
+<body>
+
+    <form id="contactForm">
+        <label for="name">Imię:</label>
+        <input type="text" id="name" name="name" required>
+
+        <br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <br><br>
+
+        <label for="subject">Temat wiadomości:</label>
+        <select id="subject" name="subject" required>
+            <option value="">Wybierz temat</option>
+            <option value="Wsparcie techniczne">Wsparcie techniczne</option>
+            <option value="Opinie">Opinie</option>
+        </select>
+
+        <br><br>
+
+        <div id="extraFields"></div>
+
+        <br><br>
+
+        <button type="submit">Wyślij</button>
+    </form>
+
+    <div id="formMessage"></div>
+
+    <script>
+        document.getElementById('subject').addEventListener('change', function() {
+            const extraFields = document.getElementById('extraFields');
+            extraFields.innerHTML = '';
+
+            const subject = this.value;
+
+            if (subject === 'Wsparcie techniczne') {
+                extraFields.innerHTML = `
+                    <label for="issueDescription">Opis problemu:</label>
+                    <textarea id="issueDescription" name="issueDescription" required></textarea>
+                `;
+            } else if (subject === 'Opinie') {
+                extraFields.innerHTML = `
+                    <label for="rating">Ocena (1-5):</label>
+                    <input type="number" id="rating" name="rating" min="1" max="5" required>
+                `;
+            }
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            let valid = true;
+            let errorMessage = '';
+
+            if (!name || !email || !subject) {
+                valid = false;
+                errorMessage = 'Wszystkie pola muszą być wypełnione.';
+            }
+
+            if (valid && !/\S+@\S+\.\S+/.test(email)) {
+                valid = false;
+                errorMessage = 'Proszę podać poprawny adres email.';
+            }
+
+            if (valid && subject === 'Opinie') {
+                const rating = document.getElementById('rating').value;
+                if (rating < 1 || rating > 5) {
+                    valid = false;
+                    errorMessage = 'Ocena musi mieścić się w zakresie 1-5.';
+                }
+            }
+
+            if (valid && subject === 'Wsparcie techniczne') {
+                const issueDescription = document.getElementById('issueDescription').value;
+                if (!issueDescription) {
+                    valid = false;
+                    errorMessage = 'Opis problemu jest wymagany.';
+                }
+            }
+
+            if (valid) {
+                document.getElementById('formMessage').innerHTML = '<p>Formularz został wysłany pomyślnie!</p>';
+            } else {
+                document.getElementById('formMessage').innerHTML = `<p style="color: red;">${errorMessage}</p>`;
+            }
+        });
+    </script>
+
+</body>
+</html>
