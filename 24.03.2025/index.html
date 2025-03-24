@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+	    <form id="contactForm">
+        <label for="name">Imię:</label>
+        <input type="text" id="name" name="name" required>
+
+        <br><br>
+
+        <label for="email">Email (WIĘCEJ NIŻ 1? ROZDZIEL PRZECINKIEM):</label>
+        <input type="email" id="email" name="email" multiple required>
+
+        <br><br>
+        <label for="wiek">Wiek:</label>
+        <input type="wiek" id="wiek" name="wiek" required>
+
+        <br><br>
+
+
+        <label for="subject">Jestem:</label>
+        <select id="subject" name="subject" required>
+            <option value="">Wybierz</option>
+            <option value="Osoba">Osobą Prywatną</option>
+            <option value="Firma">Firmą</option>
+        </select>
+
+        <br><br>
+
+        <div id="extraFields"></div>
+
+        <br><br>
+
+        <button type="submit">Wyślij</button>
+    </form>
+<script src="script.js"></script>
+</body>
+</html>
